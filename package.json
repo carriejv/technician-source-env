@@ -1,7 +1,7 @@
 {
 	"name": "@technician/env-config-source",
-	"version": "1.0.0",
-	"description": "Access config on your local filesystem with Technician.",
+	"version": "1.0.1",
+	"description": "Access config from environment variables with Technician.",
 	"keywords": [
 		"config",
 		"configuration",
