@@ -1,8 +1,8 @@
-# @technician/env-config-source
+# @technician/source-env
 
-[![npm version](https://img.shields.io/npm/v/@technician/env-config-source.svg)](https://www.npmjs.com/package/@technician/env-config-source) [![npm downloads](https://img.shields.io/npm/dt/@technician/env-config-source)](https://www.npmjs.com/package/@technician/env-config-source) [![npm license](https://img.shields.io/npm/l/@technician/env-config-source.svg)](https://www.npmjs.com/package/@technician/env-config-source)
+[![npm version](https://img.shields.io/npm/v/@technician/source-env.svg)](https://www.npmjs.com/package/@technician/source-env) [![npm downloads](https://img.shields.io/npm/dt/@technician/source-env)](https://www.npmjs.com/package/@technician/source-env) [![npm license](https://img.shields.io/npm/l/@technician/source-env.svg)](https://www.npmjs.com/package/@technician/source-env)
 
-[![dependencies](https://img.shields.io/david/carriejv/technician-env-config-source.svg)](https://david-dm.org/carriejv/technician-env-config-source) [![Build Status](https://github.com/carriejv/technician-env-config-source/workflows/ci-build/badge.svg?branch=master)](https://github.com/carriejv/technician-env-config-source/actions?query=workflow%3Aci-build) [![GitKraken](https://img.shields.io/badge/<3-GitKraken-green.svg)](https://www.gitkraken.com/invite/om4Du5zG)
+[![dependencies](https://img.shields.io/david/carriejv/technician-source-env.svg)](https://david-dm.org/carriejv/technician-source-env) [![Build Status](https://github.com/carriejv/technician-source-env/workflows/ci-build/badge.svg?branch=master)](https://github.com/carriejv/technician-source-env/actions?query=workflow%3Aci-build) [![GitKraken](https://img.shields.io/badge/<3-GitKraken-green.svg)](https://www.gitkraken.com/invite/om4Du5zG)
 
 A config source for accessing environment variables.
 
@@ -12,55 +12,21 @@ This package provides the `EnvConfigSource` for use with the [Technician](https:
 
 ## Installation
 
-`npm i @technician/env-config-source`
+`npm i @technician/source-env`
 
 This package is compatible with Node 10 LTS and up.
 
-## Usage Examples
+## Basic Examples
 
-### The Basics
+`EnvConfigSource` returns `string` data by default.
+
 ```ts
-import {Technician, DefaultInterpreters} from 'technician';
-import {EnvConfigSource} from '@technician/env-config-source'
+import {Technician} from 'technician';
+import {EnvConfigSource} from '@technician/source-env'
 
-const technician = new Technician(DefaultInterpreters.asText('utf8'));
-technician.addSource(new EnvConfigSource());
+const technician = new Technician(new EnvConfigSource());
 
 await technician.read('MY_ENV_VAR');
-```
-
-### Overriding Another Source With Environment Variables
-```ts
-import {Technician, DefaultInterpreters} from 'technician';
-import {EnvConfigSource} from '@technician/env-config-source';
-import {FSConfigSource} from '@technician/fs-config-source';
-
-const technician = new Technician(DefaultInterperters.asBuffer(), {
-    // Higher priority sources are checked, even if a value is cached.
-    cacheRespectsPriority: true,
-    // Set a default cache length. By default, the cache lasts forever.
-    defaultCacheLength: 1000 * 60 * 60;
-});
-const envSource = new EnvConfigSource();
-const filesystemSource = new FSConfigSource('/etc/ssl/certs');
-
-// Sources with higher priority will be used over those with lower priority.
-// By default, sources have a priority of 0 and cache forever.
-technician.addSource([
-    {
-        source: envSource,
-        priority: 1,
-        cacheFor: -1 // Disable caching for envSource
-    },
-    filesystemSource // Just use the default config for FS.
-]);
-
-// Create an alias that links both config sources to a single key.
-technician.alias('ssl_cert', ['SSL_CERT', 'mysite.crt']);
-
-// This alias will return the filesystem value and cache it for an hour --
-// unless SSL_CERT is set, which overrides it and disables caching.
-const value = await technician.read('ssl_cert');
 ```
 
 ## Contributions
