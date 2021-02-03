@@ -16,7 +16,7 @@
 
 import {
     EnvConfigSource
-} from './config-source/env-config-source';
+} from './config-source/source-env';
 
 export {
     EnvConfigSource
